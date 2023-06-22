@@ -3,9 +3,12 @@ const router = express.Router();
 const {
   fetchPost,
   postsGet,
+  tagsGet,
   postsUpdate,
   postsDelete,
-  //postsCreate,
+  createTag,
+  tagAdd,
+  tagsGet,
 } = require("./posts.controllers");
 
 router.param("postId", async (req, res, next, postId) => {
@@ -21,10 +24,10 @@ router.param("postId", async (req, res, next, postId) => {
 });
 
 router.get("/", postsGet);
-router.post("/", postsCreate);
-
+router.get("tags", tagsGet);
+router.post("/add-tag", createTag);
 router.delete("/:postId", postsDelete);
-
 router.put("/:postId", postsUpdate);
+router.post("/:postId:tagId", tagAdd);
 
 module.exports = router;

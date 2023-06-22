@@ -1,4 +1,5 @@
 const Post = require("../../models/Post");
+const Tag = require("../../models/Tag");
 
 exports.fetchPost = async (postId, next) => {
   try {
@@ -38,8 +39,44 @@ exports.postsUpdate = async (req, res, next) => {
 
 exports.postsGet = async (req, res, next) => {
   try {
-    const posts = await Post.find();
+    const posts = await Post.find().populate("tags");
     res.json(posts);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.tagsGet = async (req, res, next) => {
+  try {
+    const tags = await Tag.find().populate("posts");
+    res.json(tags);
+  } catch (error) {
+    next(error);
+    s;
+  }
+};
+
+exports.createTag = async (req, res, next) => {
+  try {
+    const tag = await Tag.create(req.body);
+    return res.status(201).json(tag);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.tagAdd = async (req, res, next) => {
+  try {
+    const { tagId } = req.params;
+    const tag = await Tag.findById("tagId");
+
+    await Post.findByIdAndUpdate(req.post._id, {
+      $push: { tags: tag._id },
+    });
+    await Tag.findByIdAndUpdate(tagId, {
+      $push: { posts: req.post._id },
+    });
+    res.status(204).end();
   } catch (error) {
     next(error);
   }

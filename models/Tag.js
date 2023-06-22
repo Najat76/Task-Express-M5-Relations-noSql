@@ -1,11 +1,13 @@
 const { model, Schema } = require("mongoose");
 
-const TagSchema = new Schema({
+const TagSchema = Schema({
   name: String,
-  author: {
-    type: Schema.Types.ObjectId,
-    ref: "Post",
-  },
+  posts: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Post",
+    },
+  ],
 });
 
 module.exports = model("Tag", TagSchema);
