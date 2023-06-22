@@ -1,4 +1,4 @@
-const Post = require('../../models/Post');
+const Post = require("../../models/Post");
 
 exports.fetchPost = async (postId, next) => {
   try {
@@ -9,7 +9,7 @@ exports.fetchPost = async (postId, next) => {
   }
 };
 
-exports.postsCreate = async (req, res) => {
+exports.postsCreate = async (req, res, next) => {
   try {
     const newPost = await Post.create(req.body);
     res.status(201).json(newPost);
@@ -18,7 +18,7 @@ exports.postsCreate = async (req, res) => {
   }
 };
 
-exports.postsDelete = async (req, res) => {
+exports.postsDelete = async (req, res, next) => {
   try {
     await Post.findByIdAndRemove({ _id: req.post.id });
     res.status(204).end();
@@ -27,7 +27,7 @@ exports.postsDelete = async (req, res) => {
   }
 };
 
-exports.postsUpdate = async (req, res) => {
+exports.postsUpdate = async (req, res, next) => {
   try {
     await Post.findByIdAndUpdate(req.post.id, req.body);
     res.status(204).end();
@@ -36,7 +36,7 @@ exports.postsUpdate = async (req, res) => {
   }
 };
 
-exports.postsGet = async (req, res) => {
+exports.postsGet = async (req, res, next) => {
   try {
     const posts = await Post.find();
     res.json(posts);
