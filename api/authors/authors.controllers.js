@@ -1,5 +1,5 @@
 const Author = require("../../models/Author");
-const Author = require("../../models/Author");
+
 const Post = require("../../models/Post");
 
 exports.postsCreate = async (req, res, next) => {
